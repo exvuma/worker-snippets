@@ -20,9 +20,7 @@ async function gatherResponse(response) {
 
   if (contentType.includes('application/json')) {
     return await response.json()
-  } else if (
-    contentType.includes('application/text')
-  ) {
+  } else if (contentType.includes('application/text')) {
     return await response.text()
   } else if (contentType.includes('text/html')) {
     return await response.text()
@@ -43,10 +41,7 @@ async function handleRequest(request) {
     },
   }
 
-  const responses = await Promise.all([
-    fetch(url1, init),
-    fetch(url2, init),
-  ])
+  const responses = await Promise.all([fetch(url1, init), fetch(url2, init)])
   const results = await Promise.all([
     gatherResponse(responses[0]),
     gatherResponse(responses[1]),
@@ -56,7 +51,5 @@ async function handleRequest(request) {
 }
 
 addEventListener('fetch', event => {
-  return event.respondWith(
-    handleRequest(event.request)
-  )
+  return event.respondWith(handleRequest(event.request))
 })

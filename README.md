@@ -14,9 +14,9 @@ This is the template creator. To make a template:
 
 6. Fill out the `README.md`. Make sure to include:
 
-    - Description of what the Worker accomplishes.
-    - Demo. Ideally a demo using cloudflareworkers.com, but for Worker demos requiring special headers,
-      POST bodies,.. a live demo of where the Worker is running also works.
+   - Description of what the Worker accomplishes.
+   - Demo. Ideally a demo using cloudflareworkers.com, but for Worker demos requiring special headers,
+     POST bodies,.. a live demo of where the Worker is running also works.
 
 7. Commit source files omitting build files of course.
 
