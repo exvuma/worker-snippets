@@ -1,4 +1,6 @@
 node_modules/*
-serverless.yml
+worker/*
+*.lock
 wrangler.toml
-*.log
+.vscode*
+receiveserver.js
