@@ -4,7 +4,6 @@
  *  */
 const someHost = 'https://workers-tooling.cf/demos'
 const url = someHost + '/static/html'
-
 /**
  * gatherResponse awaits and returns a response body as a string.
  * Use await gatherResponse(..) in an async function to get the response body
@@ -13,7 +12,6 @@ const url = someHost + '/static/html'
 async function gatherResponse(response) {
   const { headers } = response
   const contentType = headers.get('content-type')
-
   if (contentType.includes('application/json')) {
     return await response.json()
   } else if (contentType.includes('application/text')) {
@@ -24,7 +22,6 @@ async function gatherResponse(response) {
     return await response.text()
   }
 }
-
 /**
  * handleRequest sends a GET request expecting html
  * and then returns a response with that HTML
@@ -36,13 +33,10 @@ async function handleRequest(request) {
       'content-type': 'text/html;charset=UTF-8',
     },
   }
-
   const response = await fetch(url, init)
   const results = await gatherResponse(response)
-
   return new Response(results, init)
 }
-
 addEventListener('fetch', event => {
   return event.respondWith(handleRequest(event.request))
 })

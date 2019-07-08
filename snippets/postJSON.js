@@ -1,8 +1,10 @@
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 1 }]*/
 /**
  * handleRequest sends a POST request with JSON data and
  * and reads in the response body.
  * @param {Request} request the incoming request
  */
+
 async function handleRequest(request) {
   const init = {
     body: JSON.stringify(body),

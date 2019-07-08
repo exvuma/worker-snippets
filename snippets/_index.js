@@ -4,7 +4,6 @@
  * @param {string} url
  */
 const url = 'https://example.com'
-
 /**
  * Helper function Here is what my help does
  * @param {string} path
@@ -12,7 +11,6 @@ const url = 'https://example.com'
 function helper(path) {
   return url + '/' + path
 }
-
 /**
  * Return a simple Hello World response
  * @param {Request} request
@@ -23,7 +21,6 @@ async function handleRequest(request) {
     status: 200,
   })
 }
-
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })

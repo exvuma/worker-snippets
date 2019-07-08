@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write '**/*.{js,css,json,md}'"
+    "format": "eslint snippets/*.js --fix && prettier --write '**/*.{js,css,json,md}'"
   },
   "author": "{{ authors }}",
   "license": "ISC",
@@ -17,5 +17,8 @@
       "pre-commit": "npm run format",
       "pre-push": "npm run format"
     }
+  },
+  "dependencies": {
+    "eslint": "^6.0.1"
   }
 }

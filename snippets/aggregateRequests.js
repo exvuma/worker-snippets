@@ -26,7 +26,6 @@ const someHost = 'https://workers-tooling.cf/demos'
 const url1 = someHost + '/requests/json'
 const url2 = someHost + '/requests/json'
 const type = 'application/json;charset=UTF-8'
-
 /**
  * gatherResponse awaits and returns a response body as a string.
  * Use await gatherResponse(..) in an async function to get the response body
