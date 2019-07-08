@@ -6,8 +6,7 @@
 const url = 'https://example.com'
 
 /**
- * Helper function
- * Here is what my help does
+ * Helper function Here is what my help does
  * @param {string} path
  */
 function helper(path) {

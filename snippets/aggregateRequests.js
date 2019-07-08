@@ -1,4 +1,22 @@
 /**
+ * handleRequest sends a GET request to two urls
+ * and aggregates the responses into one response
+ * @param {Request} request the incoming request
+ */
+async function handleRequest(request) {
+  const init = {
+    headers: {
+      'content-type': type,
+    },
+  }
+  const responses = await Promise.all([fetch(url1, init), fetch(url2, init)])
+  const results = await Promise.all([gatherResponse(responses[0]), gatherResponse(responses[1])])
+  return new Response(results, init)
+}
+addEventListener('fetch', event => {
+  return event.respondWith(handleRequest(event.request))
+})
+/**
  * Example someHost is set up to return JSON responses
  * Replace url1 and url2  with the hosts you wish to
  * send requests to
@@ -17,7 +35,6 @@ const type = 'application/json;charset=UTF-8'
 async function gatherResponse(response) {
   const { headers } = response
   const contentType = headers.get('content-type')
-
   if (contentType.includes('application/json')) {
     return await response.json()
   } else if (contentType.includes('application/text')) {
@@ -28,28 +45,3 @@ async function gatherResponse(response) {
     return await response.text()
   }
 }
-
-/**
- * handleRequest sends a GET request to two urls
- * and aggregates the responses into one response
- * @param {Request} request the incoming request
- */
-async function handleRequest(request) {
-  const init = {
-    headers: {
-      'content-type': type,
-    },
-  }
-
-  const responses = await Promise.all([fetch(url1, init), fetch(url2, init)])
-  const results = await Promise.all([
-    gatherResponse(responses[0]),
-    gatherResponse(responses[1]),
-  ])
-
-  return new Response(results, init)
-}
-
-addEventListener('fetch', event => {
-  return event.respondWith(handleRequest(event.request))
-})
