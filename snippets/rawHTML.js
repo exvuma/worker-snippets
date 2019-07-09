@@ -1,25 +1,24 @@
-const someForm = `
-<!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>This is all generated using a Worker</p>
-<form action="/demos/requests" method="post">
-  <div>
-    <label for="say">What  do you want to say?</label>
-    <input name="say" id="say" value="Hi">
-  </div>
-  <div>
-    <label for="to">To who?</label>
-    <input name="to" id="to" value="Mom">
-  </div>
-  <div>
-    <button>Send my greetings</button>
-  </div>
-</form>
-</body>
-</html>
-`
+async function handleGetRequest(request) {
+  let reqBody = await readRequestBody(request)
+  let retBody = `The request body sent in was ${reqBody}`
+  return new Response(retBody)
+}
+async function handleGetRequest(request) {
+  let retBody = `The request was a GET`
+  return new Response(retBody)
+}
+addEventListener('fetch', event => {
+  const { request } = event
+  const { url } = request
+  if (url.includes('form')) {
+    return event.respondWith(rawHtmlResponse(someForm))
+  }
+  if (request.method === 'POST') {
+    return event.respondWith(handlePostRequest(request))
+  } else if (request.method === 'GET') {
+    return event.respondWith(handleGetRequest(request))
+  }
+})
 /**
  * rawHtmlResponse delievers a response with HTML inputted directly
  * into the worker script
@@ -63,24 +62,25 @@ async function readRequestBody(request) {
     return objectURL
   }
 }
-async function formatResponseOnPost(request) {
-  let reqBody = await readRequestBody(request)
-  let retBody = `The request body sent in was ${reqBody}`
-  return new Response(retBody)
-}
-async function formatResponseOnGet(request) {
-  let retBody = `The request was a GET`
-  return new Response(retBody)
-}
-addEventListener('fetch', event => {
-  const { request } = event
-  const { url } = request
-  if (url.includes('form')) {
-    return event.respondWith(rawHtmlResponse(someForm))
-  }
-  if (request.method === 'POST') {
-    return event.respondWith(formatResponseOnPost(request))
-  } else if (request.method === 'GET') {
-    return event.respondWith(formatResponseOnGet(request))
-  }
-})
+const someForm = `
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Hello World</h1>
+<p>This is all generated using a Worker</p>
+<form action="/demos/requests" method="post">
+  <div>
+    <label for="say">What  do you want to say?</label>
+    <input name="say" id="say" value="Hi">
+  </div>
+  <div>
+    <label for="to">To who?</label>
+    <input name="to" id="to" value="Mom">
+  </div>
+  <div>
+    <button>Send my greetings</button>
+  </div>
+</form>
+</body>
+</html>
+`

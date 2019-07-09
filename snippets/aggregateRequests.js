@@ -17,16 +17,6 @@ addEventListener('fetch', event => {
   return event.respondWith(handleRequest(event.request))
 })
 /**
- * Example someHost is set up to return JSON responses
- * Replace url1 and url2  with the hosts you wish to
- * send requests to
- * @param {string} url the URL to send the request to
- */
-const someHost = 'https://workers-tooling.cf/demos'
-const url1 = someHost + '/requests/json'
-const url2 = someHost + '/requests/json'
-const type = 'application/json;charset=UTF-8'
-/**
  * gatherResponse awaits and returns a response body as a string.
  * Use await gatherResponse(..) in an async function to get the response body
  * @param {Response} response
@@ -44,3 +34,13 @@ async function gatherResponse(response) {
     return await response.text()
   }
 }
+/**
+ * Example someHost is set up to return JSON responses
+ * Replace url1 and url2  with the hosts you wish to
+ * send requests to
+ * @param {string} url the URL to send the request to
+ */
+const someHost = 'https://workers-tooling.cf/demos'
+const url1 = someHost + '/requests/json'
+const url2 = someHost + '/requests/json'
+const type = 'application/json;charset=UTF-8'

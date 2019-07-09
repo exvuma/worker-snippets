@@ -1,25 +1,3 @@
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 1 }]*/
-/**
- * handleRequest sends a POST request with JSON data and
- * and reads in the response body.
- * @param {Request} request the incoming request
- */
-
-async function handleRequest(request) {
-  const init = {
-    body: JSON.stringify(body),
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json;charset=UTF-8',
-    },
-  }
-  const response = await fetch(url, init)
-  const results = await gatherResponse(response)
-  return new Response(results, init)
-}
-addEventListener('fetch', event => {
-  return event.respondWith(handleRequest(event.request))
-})
 /**
  * gatherResponse awaits and returns a response body as a string.
  * Use await gatherResponse(..) in an async function to get the response body
@@ -38,6 +16,26 @@ async function gatherResponse(response) {
     return await response.text()
   }
 }
+/**
+ * handleRequest sends a POST request with JSON data and
+ * and reads in the response body.
+ * @param {Request} request the incoming request
+ */
+async function handleRequest(request) {
+  const init = {
+    body: JSON.stringify(body),
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json;charset=UTF-8',
+    },
+  }
+  const response = await fetch(url, init)
+  const results = await gatherResponse(response)
+  return new Response(results, init)
+}
+addEventListener('fetch', event => {
+  return event.respondWith(handleRequest(event.request))
+})
 /**
  * Example someHost is set up to take in a JSON request
  * Replace url with the host you wish to send requests to
