@@ -1,16 +1,16 @@
 async function handleRequest(request) {
   /**
    * Best practice is to only assign new properties on the request
-   * object through either a method or the constructor
+   * object (i.e. RequestInit props) through either a method or the constructor
    */
-  let newProps = {
+  let newRequestInit = {
     // Change method
     method: 'POST',
     // Change body
     body: JSON.stringify({ bar: 'foo' }),
     // Change the redirect mode.
     redirect: 'follow',
-    //Change headers
+    //Change headers, note this  will erase existing headers
     headers: {
       'Content-Type': 'application/json',
     },
@@ -18,14 +18,14 @@ async function handleRequest(request) {
     cf: { apps: false },
   }
   // Change URL
-  // Make sure to pass the new URL into the Request constructor
   let url = someUrl
   // Change just the host
   url = new URL(url)
   url.hostname = someHost
   // Best practice is to always use the original request to construct the new request
   // thereby cloning all the attributes, applying the URL also requires a constructor
-  const newRequest = new Request(url, new Request(request, newProps))
+  //  since once a Request has been constructed, its URL is immutable.
+  const newRequest = new Request(url, new Request(request, newRequestInit))
   // Set headers using method
   newRequest.headers.set('X-Example', 'bar')
   newRequest.headers.set('Content-Type', 'application/json')
@@ -43,5 +43,7 @@ addEventListener('fetch', event => {
  * @param {string} someUrl the URL to send the request to, since we are setting hostname too only path is applied
  * @param {string} someHost the host the request will resolve too
  */
-const someHost = 'example.com'
-const someUrl = 'https://foo.example.com/api/date.js'
+// const someUrl = 'https://demo.workers-tooling.cf/fdemos/static/html'
+const someHost = 'my-express-project.victoriabernard92.now.sh'
+// const someHost = 'demo.workers-tooling.cf'
+const someUrl = 'https://my-express-project.victoriabernard92.now.sh/api/date.js'
