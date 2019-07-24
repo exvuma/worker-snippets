@@ -1,9 +1,8 @@
 {
   "version": "1.0.0",
   "description": "package for creating workers templates",
-  "main": "index.js",
+  "main": "./snippets/cors_headers.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "format": "eslint snippets/*.js --fix && prettier --write '**/*.{js,css,json,md}'"
   },
   "author": "{{ authors }}",

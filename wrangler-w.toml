@@ -1,0 +1,6 @@
+name = "request"
+type = "javascript"
+zone_id = "ef47aa23b6bf53a4d334b7e3f3579c56"
+private = false
+account_id = "95e065d2e3f97a1e50bae58aea71df6d"
+route = "https://workers-tooling.cf/snippets/modify_req_prop"

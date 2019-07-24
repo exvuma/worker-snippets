@@ -13,6 +13,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-multiple-empty-lines": ["error", { "max": 0, "maxEOF": 1 }]
+    "no-multiple-empty-lines": ["error", { "max": 0, "maxEOF": 1 }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "request" }]
   }
 }

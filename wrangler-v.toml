@@ -1,0 +1,8 @@
+
+name = "server"
+type = "javascript"
+zone_id = "311fb0d122aa8eded206cf75fe2d9725"
+private = false
+account_id = "1a8f7afbbaf748087b32a620eae26d9d"
+route = "https://demo.victoriacf.tk/"
+route = "https://victoriacf.tk/snippets/requestProp"
