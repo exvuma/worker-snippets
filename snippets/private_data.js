@@ -1,6 +1,5 @@
 const SOME_HOOK_SERVER = 'https://webhook.flow-wolf.io/hook'
 const DEBUG = true
-
 /**
  * Define personal data with regular expressions
  * Respond with block if credit card data, and strip
@@ -42,15 +41,12 @@ async function handleRequest(request) {
   }
   return new Response(text, response)
 }
-
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
-
 async function postDataBreach(request) {
   let trueClientIp = request.headers.get('cf-connecting-ip')
   let epoch = new Date().getTime()
-
   const body = {
     ip: trueClientIp,
     time: epoch,
