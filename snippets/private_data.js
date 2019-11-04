@@ -1,53 +1,56 @@
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
+const SOME_HOOK_SERVER = 'https://webhook.flow-wolf.io/hook'
+const DEBUG = true
 
 /**
- * Prevent personal data loss
- * Here, we are defining personal data with regular expressions
+ * Define personal data with regular expressions
+ * Respond with block if credit card data, and strip
+ * emails and phone numbers from the response
  * Execution will be limited to MIME type "text/*"
  */
 async function handleRequest(request) {
   let response = await fetch(request)
-  let respClone = await response.clone()
+  // Return origin responst, if response wasn't text
   let contentType = response.headers.get('content-type')
   if (!contentType.toLowerCase().includes('text/')) {
     return response
   }
-  const text = await response.text()
-  const sensitiveData = {
+  let text = await response.text()
+  text = DEBUG
+    ? // for testing only - replace the response from the origin with an email
+      text.replace('You may use this', 'me@example.com may use this')
+    : text
+  const sensitiveRegexsMap = {
     email: String.raw`\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b`,
     phone: String.raw`\b07\d{9}\b`,
     creditCard: String.raw`\b(?:4[0-9]{12}(?:[0-9]{3})?|(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})\b`,
   }
-  for (const kind in sensitiveData) {
-    let sensitiveRegex = sensitiveData[kind]
-    let re = new RegExp(sensitiveRegex, 'ig')
-    let match = await re.test(text)
+  for (const kind in sensitiveRegexsMap) {
+    let sensitiveRegex = new RegExp(sensitiveRegexsMap[kind], 'ig')
+    let match = await sensitiveRegex.test(text)
     if (match) {
-      return new Response(kind + ' found\nForbidden\n', {
-        status: 403,
-        statusText: 'Forbidden',
-      })
-    }
-    if (match) {
-      text = text.replace(re, '**********')
-    }
-    //  * Breach events will be posted to a webhook server
-    if (match) {
-      await postDataBreach(trueClientIp, epoch, request)
-      return new Response(kind + ' found\nForbidden\n', {
-        status: 403,
-        statusText: 'Forbidden',
-      })
+      // alert a data breach by posting to a webhook server
+      await postDataBreach(request)
+      // respond with a block if credit card, else replace
+      // senstive text with *'s
+      return kind === 'email'
+        ? new Response(text.replace(sensitiveRegex, '**********'), response)
+        : new Response(kind + ' found\nForbidden\n', {
+            status: 403,
+            statusText: 'Forbidden',
+          })
     }
   }
-  return respClone
+  return new Response(text, response)
 }
 
-async function postDataBreach(trueClientIp, epoch, request) {
-  const someHost = 'https://webhook.flow-wolf.io'
-  const url = someHost + '/hooks'
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+})
+
+async function postDataBreach(request) {
+  let trueClientIp = request.headers.get('cf-connecting-ip')
+  let epoch = new Date().getTime()
+
   const body = {
     ip: trueClientIp,
     time: epoch,
@@ -60,6 +63,5 @@ async function postDataBreach(trueClientIp, epoch, request) {
       'content-type': 'application/json;charset=UTF-8',
     },
   }
-  const response = await fetch(url, init)
-  return response
+  return await fetch(SOME_HOOK_SERVER, init)
 }
