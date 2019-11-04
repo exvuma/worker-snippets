@@ -6,7 +6,9 @@
   "extends": "eslint:recommended",
   "globals": {
     "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
+    "SharedArrayBuffer": "readonly",
+    "HTMLRewriter": "readonly",
+    "require": "readonly"
   },
   "parserOptions": {
     "ecmaVersion": 2018,
@@ -14,6 +16,13 @@
   },
   "rules": {
     "no-multiple-empty-lines": ["error", { "max": 0, "maxEOF": 1 }],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "request" }]
+    // "no-undef": [
+    //   "error",
+    //   { "argsIgnorePattern": "HTMLRewriter|require|request" }
+    // ],
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "HTMLRewriter|require|request" }
+    ]
   }
 }

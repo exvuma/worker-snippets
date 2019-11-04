@@ -1,14 +1,15 @@
 module.exports = {
-  entry: './snippets/_index.js',
+  entry: './snippets/cookie.js',
   mode: 'development',
   output: {
     pathinfo: false,
   },
+  devtool: 'none',
   optimization: {
     // We no not want to minimize our code.
-    minimize: false,
-    removeEmptyChunks: false,
-    removeAvailableModules: false,
-    mergeDuplicateChunks: false,
+    minimize: true,
+    removeEmptyChunks: true,
+    removeAvailableModules: true,
+    mergeDuplicateChunks: true,
   },
 }
